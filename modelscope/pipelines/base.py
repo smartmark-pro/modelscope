@@ -277,7 +277,6 @@ class Pipeline(ABC):
         preprocess_params = kwargs.get('preprocess_params')
         forward_params = kwargs.get('forward_params')
         postprocess_params = kwargs.get('postprocess_params')
-
         # batch data
         output_list = []
         for i in range(0, len(input), batch_size):
@@ -304,7 +303,7 @@ class Pipeline(ABC):
                 for k, element in batched_out.items():
                     if element is not None:
                         if isinstance(element, (tuple, list)):
-                            if isinstance(element[0], torch.Tensor):
+                            if isinstance(element[0], torch.Tensor) and self.group_key !="text-error-correction":
                                 out[k] = type(element)(
                                     e[batch_idx:batch_idx + 1]
                                     for e in element)
